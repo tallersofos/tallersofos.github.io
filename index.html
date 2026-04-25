@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOFOS — Taller de Aprendizaje</title>
+  <meta name="description" content="Taller de aprendizaje con clases personalizadas, talleres creativos y asesoría académica a domicilio. Andrés Rueda, Lic. en Lengua y Literatura." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root{--purple:#6B2D8B;--purple-deep:#4A1F63;--purple-soft:#9B59C5;--purple-pale:#F0E8F8;--yellow:#C8B820;--yellow-light:#E8D840;--yellow-pale:#FBF8DC;--cream:#FAF7F2;--brown-light:#E8E0D0;--text-dark:#2A1A3E;--text-mid:#5A4A6E;--text-light:#8A7A9E;--white:#ffffff}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;padding:14px 40px;background:rgba(250,247,242,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--brown-light);transition:box-shadow 0.3s}
+    nav.scrolled{box-shadow:0 2px 20px rgba(107,45,139,0.08)}
+    .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-name{font-weight:500;font-size:18px;letter-spacing:3px;color:var(--purple)}
+    .nav-links{display:flex;gap:22px;list-style:none;align-items:center}
+    .nav-links a{text-decoration:none;font-size:13px;color:var(--text-mid);transition:color 0.2s}
+    .nav-links a:hover{color:var(--purple)}
+    .nav-cta{background:var(--purple)!important;color:var(--white)!important;padding:7px 16px;border-radius:24px;font-weight:500!important}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+    .hamburger span{width:22px;height:2px;background:var(--purple);border-radius:2px}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:110px 40px 70px;position:relative;background:var(--purple-deep);overflow:hidden}
+    .hero-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,0.05)}
+    .hero-ring:nth-child(1){width:700px;height:700px;top:-150px;right:-200px}
+    .hero-ring:nth-child(2){width:450px;height:450px;bottom:-100px;left:-150px}
+    .hero-ring:nth-child(3){width:220px;height:220px;top:28%;left:8%}
+    .hero-content{position:relative;z-index:2;max-width:640px}
+    .hero-owl-wrap{width:100px;height:100px;margin:0 auto 24px;animation:float 4s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .hero-tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--yellow-light);display:block;margin-bottom:14px}
+    .hero h1{font-family:'Playfair Display',serif;font-size:clamp(52px,9vw,88px);font-weight:600;color:var(--white);letter-spacing:8px;line-height:1;margin-bottom:10px}
+    .hero-sub{font-size:12px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:26px}
+    .hero-desc{font-size:16px;line-height:1.85;color:rgba(255,255,255,0.78);max-width:480px;margin:0 auto 38px;font-weight:300}
+    .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn-main{background:var(--yellow);color:var(--purple-deep);font-size:14px;font-weight:500;padding:12px 28px;border-radius:32px;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:background 0.2s,transform 0.15s}
+    .btn-main:hover{background:var(--yellow-light);transform:translateY(-2px)}
+    .btn-outline{background:transparent;color:var(--white);font-size:14px;padding:12px 28px;border-radius:32px;border:1px solid rgba(255,255,255,0.35);cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s}
+    .btn-outline:hover{border-color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.06)}
+    .tags-strip{background:var(--yellow-pale);border-bottom:1px solid var(--brown-light);padding:16px 40px;display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+    .tag{font-size:12px;color:var(--purple);background:var(--white);border:1px solid rgba(107,45,139,0.15);padding:4px 14px;border-radius:20px}
+    section{padding:80px 40px}
+    .section-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--purple-soft);margin-bottom:10px;font-weight:500;display:block}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(26px,4vw,38px);font-weight:600;color:var(--text-dark);margin-bottom:10px;line-height:1.2}
+    .section-desc{font-size:15px;color:var(--text-mid);line-height:1.75;font-weight:300}
+    .inner{max-width:1000px;margin:0 auto}
+    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+    .two-col-center{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+    /* ABOUT */
+    #acerca{background:var(--cream)}
+    .about-text{font-size:15px;line-height:1.9;color:var(--text-mid);font-weight:300}
+    .about-text strong{color:var(--purple);font-weight:500}
+    .exp-block{margin-top:24px;border-left:3px solid var(--yellow);padding-left:20px}
+    .exp-block p{font-size:13px;line-height:1.85;color:var(--text-light);font-weight:300}
+    .about-card{background:var(--purple-deep);border-radius:24px;padding:36px;color:var(--white);text-align:center}
+    .about-card h3{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;margin-bottom:6px}
+    .about-card .atitle{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:24px}
+    .about-card .citem{font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:8px}
+    /* SERVICIOS */
+    #servicios{background:var(--white)}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+    .service-card{background:var(--cream);border:1px solid var(--brown-light);border-radius:16px;padding:24px 20px;transition:border-color 0.2s,transform 0.2s}
+    .service-card:hover{border-color:var(--purple-soft);transform:translateY(-3px)}
+    .service-icon{width:44px;height:44px;background:var(--purple-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+    .service-card h3{font-size:15px;font-weight:500;color:var(--text-dark);margin-bottom:6px}
+    .service-card p{font-size:13px;color:var(--text-light);line-height:1.6;font-weight:300}
+    .service-price{display:inline-block;margin-top:12px;font-size:13px;font-weight:500;color:var(--purple);background:var(--purple-pale);padding:3px 12px;border-radius:12px}
+    .horario-box{background:var(--purple-pale);border-radius:16px;padding:28px;margin-top:36px;display:flex;gap:40px;flex-wrap:wrap;align-items:center}
+    .horario-box h4{font-size:13px;font-weight:500;color:var(--purple);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+    .horario-box p{font-size:14px;color:var(--text-mid);font-weight:300;line-height:1.7}
+    /* TALLERES */
+    #talleres{background:var(--purple-deep)}
+    #talleres .section-label{color:var(--yellow-light)}
+    #talleres .section-title{color:var(--white)}
+    #talleres .section-desc{color:rgba(255,255,255,0.6)}
+    .talleres-pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+    .taller-pill{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);padding:10px 22px;border-radius:32px;font-size:14px;font-weight:300;transition:all 0.2s;cursor:default}
+    .taller-pill:hover{background:rgba(200,184,32,0.15);border-color:var(--yellow);color:var(--yellow-light)}
+    .quote-block{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:rgba(255,255,255,0.55);line-height:1.7;border-left:3px solid var(--yellow);padding-left:24px}
+    .quote-block span{display:block;font-family:'DM Sans',sans-serif;font-size:12px;font-style:normal;letter-spacing:2px;color:var(--yellow);margin-top:14px}
+    /* TIENDA */
+    #tienda{background:var(--cream)}
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:14px;margin-top:32px}
+    .product-card{background:var(--white);border:1px solid var(--brown-light);border-radius:16px;overflow:hidden;transition:transform 0.2s,border-color 0.2s}
+    .product-card:hover{transform:translateY(-4px);border-color:var(--purple-soft)}
+    .product-img{height:140px;background:var(--purple-pale);display:flex;align-items:center;justify-content:center}
+    .product-info{padding:12px 14px}
+    .product-name{font-size:13px;font-weight:500;color:var(--text-dark);margin-bottom:4px}
+    .product-price{font-size:13px;color:var(--purple);font-weight:500}
+    .product-badge{display:inline-block;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:var(--yellow-pale);color:var(--purple);padding:2px 8px;border-radius:8px;margin-bottom:5px}
+    /* PRECIOS */
+    #precios{background:var(--white)}
+    .plans-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:32px}
+    .plan{background:var(--cream);border:1px solid var(--brown-light);border-radius:20px;padding:28px 18px;text-align:center;transition:all 0.2s}
+    .plan:hover{transform:translateY(-4px);border-color:var(--purple-soft)}
+    .plan.featured{background:var(--purple);border-color:var(--purple)}
+    .plan-badge-pill{font-size:10px;letter-spacing:2px;text-transform:uppercase;background:var(--yellow-pale);color:var(--purple);padding:3px 10px;border-radius:10px;display:inline-block;margin-bottom:12px}
+    .plan.featured .plan-badge-pill{background:rgba(255,255,255,0.2);color:var(--white)}
+    .plan-name{font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px}
+    .plan.featured .plan-name{color:rgba(255,255,255,0.65)}
+    .plan-price{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--purple);margin-bottom:4px}
+    .plan.featured .plan-price{color:var(--yellow-light)}
+    .plan-unit{font-size:12px;color:var(--text-light);margin-bottom:14px}
+    .plan.featured .plan-unit{color:rgba(255,255,255,0.55)}
+    .plan-detail{font-size:13px;color:var(--text-mid);line-height:1.7}
+    .plan.featured .plan-detail{color:rgba(255,255,255,0.8)}
+    /* PORTAFOLIO */
+    #portafolio{background:var(--purple-deep)}
+    #portafolio .section-label{color:var(--yellow-light)}
+    #portafolio .section-title{color:var(--white)}
+    #portafolio .section-desc{color:rgba(255,255,255,0.6)}
+    .portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:32px}
+    .portfolio-item{border-radius:16px;aspect-ratio:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:background 0.2s;padding:24px;text-align:center}
+    .portfolio-item:hover{background:rgba(255,255,255,0.1)}
+    .portfolio-item span{font-size:13px;color:rgba(255,255,255,0.6);font-weight:300}
+    /* CONTACTO */
+    #contacto{background:var(--yellow-pale);border-top:1px solid var(--brown-light)}
+    .contact-info-col h3{font-family:'Playfair Display',serif;font-size:30px;font-weight:600;color:var(--purple-deep);margin-bottom:4px}
+    .contact-info-col .subtitle{font-size:14px;color:var(--text-mid);font-weight:300;margin-bottom:24px}
+    .contact-links{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+    .contact-link{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-mid);text-decoration:none;transition:color 0.2s}
+    .contact-link:hover{color:var(--purple)}
+    .contact-link-icon{width:36px;height:36px;background:var(--white);border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--brown-light);flex-shrink:0}
+    .horario-mini{font-size:13px;color:var(--text-mid);line-height:1.8;font-weight:300}
+    .horario-mini strong{color:var(--purple);font-weight:500}
+    .contact-form{display:flex;flex-direction:column;gap:12px}
+    .contact-form input,.contact-form textarea{width:100%;padding:12px 16px;border:1px solid var(--brown-light);border-radius:12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text-dark);background:var(--white);outline:none;transition:border-color 0.2s}
+    .contact-form input:focus,.contact-form textarea:focus{border-color:var(--purple-soft)}
+    .contact-form textarea{height:100px;resize:none}
+    .wa-btn{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:var(--white);font-size:14px;font-weight:500;padding:12px 24px;border-radius:32px;border:none;cursor:pointer;text-decoration:none;transition:all 0.2s}
+    .wa-btn:hover{background:#1da855;transform:translateY(-2px)}
+    footer{background:var(--purple-deep);padding:40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+    .footer-brand{display:flex;align-items:center;gap:12px}
+    .footer-name{font-size:16px;font-weight:500;letter-spacing:3px;color:var(--white)}
+    .footer-tagline{font-size:11px;color:rgba(255,255,255,0.35);letter-spacing:2px}
+    .footer-links{display:flex;gap:20px;flex-wrap:wrap}
+    .footer-links a{font-size:13px;color:rgba(255,255,255,0.45);text-decoration:none;transition:color 0.2s}
+    .footer-links a:hover{color:var(--yellow-light)}
+    @media(max-width:768px){
+      nav{padding:14px 20px}
+      .nav-links{display:none;flex-direction:column;position:fixed;top:58px;left:0;right:0;background:rgba(250,247,242,0.98);padding:20px;gap:16px;border-bottom:1px solid var(--brown-light)}
+      .nav-links.open{display:flex}
+      .hamburger{display:flex}
+      section{padding:60px 20px}
+      .two-col,.two-col-center{grid-template-columns:1fr;gap:32px}
+      .services-grid{grid-template-columns:1fr 1fr}
+      .plans-grid{grid-template-columns:1fr 1fr}
+      .portfolio-grid{grid-template-columns:1fr 1fr}
+      .tags-strip{padding:14px 20px}
+      .hero{padding:100px 20px 60px}
+      footer{flex-direction:column;align-items:flex-start;padding:32px 20px}
+    }
+    @media(max-width:480px){
+      .services-grid{grid-template-columns:1fr}
+      .plans-grid{grid-template-columns:1fr}
+      .products-grid{grid-template-columns:1fr 1fr}
+    }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#inicio" class="nav-brand">
+    <svg width="34" height="34" viewBox="0 0 502 497" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,497) scale(0.1,-0.1)" fill="#6B2D8B" stroke="none"><path d="M2385 4863 c-391 -32 -716 -138 -1040 -342 -564 -353 -951 -928 -1074 -1596 -102 -553 -7 -1129 267 -1620 283 -508 736 -891 1272 -1077 119 -41 298 -84 410 -97 52 -7 122 -16 156 -22 79 -12 277 -12 362 1 37 5 119 17 182 26 421 58 866 278 1202 593 408 383 686 948 737 1497 15 154 16 433 2 539 -66 512 -280 988 -602 1340 -20 22 -49 54 -65 71 -52 57 -227 205 -324 274 -77 55 -320 200 -335 200 -3 0 -28 11 -57 24 -321 147 -737 219 -1093 189z m405 -328 c133 -16 161 -22 280 -53 119 -32 216 -70 353 -138 182 -91 395 -239 374 -260 -3 -4 -40 -1 -82 5 -191 28 -436 8 -606 -50 -205 -69 -369 -195 -493 -377 -27 -40 -53 -72 -56 -72 -4 0 -20 19 -35 41 -48 74 -187 209 -272 266 -91 60 -189 101 -333 139 -116 31 -345 43 -485 25 -203 -26 -189 -26 -179 -8 14 24 128 113 229 179 390 253 845 359 1305 303z m1012 -783 c225 -61 343 -166 511 -452 185 -317 266 -638 237 -940 -34 -349 -80 -526 -207 -790 -135 -282 -327 -523 -579 -724 -448 -358 -1046 -500 -1604 -382 -888 188 -1535 947 -1601 1875 -21 300 23 507 166 793 94 187 210 358 300 441 87 82 257 149 417 167 344 36 561 -22 738 -200 93 -93 126 -149 166 -283 56 -187 72 -337 55 -500 -18 -159 11 -267 86 -324 30 -23 46 -28 93 -28 70 1 114 29 144 94 19 43 21 58 16 216 -8 315 -5 348 52 555 33 124 60 180 116 249 100 123 176 175 327 224 111 36 109 36 310 32 143 -2 196 -7 257 -23z"/><path d="M1399 3136 c-59 -21 -106 -54 -139 -99 -110 -149 -58 -364 108 -443 192 -92 412 51 412 267 0 123 -84 241 -196 275 -58 17 -137 17 -185 0z"/><path d="M3520 3141 c-75 -24 -141 -83 -181 -161 -28 -53 -33 -164 -10 -220 48 -117 159 -195 276 -195 104 1 195 56 253 155 24 40 27 55 27 140 0 85 -3 100 -27 140 -30 51 -66 87 -121 119 -41 25 -170 38 -217 22z"/></g></svg>
+    <span class="nav-name">SOFOS</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#acerca">Acerca de</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#talleres">Talleres</a></li>
+    <li><a href="#tienda">Tienda</a></li>
+    <li><a href="#precios">Precios</a></li>
+    <li><a href="#portafolio">Portafolio</a></li>
+    <li><a href="#contacto" class="nav-cta">Contacto</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-ring"></div><div class="hero-ring"></div><div class="hero-ring"></div>
+  <div class="hero-content">
+    <div class="hero-owl-wrap">
+      <svg viewBox="0 0 502 497" xmlns="http://www.w3.org/2000/svg" width="100" height="100"><g transform="translate(0,497) scale(0.1,-0.1)" fill="rgba(255,255,255,0.9)" stroke="none"><path d="M2385 4863 c-391 -32 -716 -138 -1040 -342 -564 -353 -951 -928 -1074 -1596 -102 -553 -7 -1129 267 -1620 283 -508 736 -891 1272 -1077 119 -41 298 -84 410 -97 52 -7 122 -16 156 -22 79 -12 277 -12 362 1 37 5 119 17 182 26 421 58 866 278 1202 593 408 383 686 948 737 1497 15 154 16 433 2 539 -66 512 -280 988 -602 1340 -20 22 -49 54 -65 71 -52 57 -227 205 -324 274 -77 55 -320 200 -335 200 -3 0 -28 11 -57 24 -321 147 -737 219 -1093 189z m405 -328 c133 -16 161 -22 280 -53 119 -32 216 -70 353 -138 182 -91 395 -239 374 -260 -3 -4 -40 -1 -82 5 -191 28 -436 8 -606 -50 -205 -69 -369 -195 -493 -377 -27 -40 -53 -72 -56 -72 -4 0 -20 19 -35 41 -48 74 -187 209 -272 266 -91 60 -189 101 -333 139 -116 31 -345 43 -485 25 -203 -26 -189 -26 -179 -8 14 24 128 113 229 179 390 253 845 359 1305 303z m1012 -783 c225 -61 343 -166 511 -452 185 -317 266 -638 237 -940 -34 -349 -80 -526 -207 -790 -135 -282 -327 -523 -579 -724 -448 -358 -1046 -500 -1604 -382 -888 188 -1535 947 -1601 1875 -21 300 23 507 166 793 94 187 210 358 300 441 87 82 257 149 417 167 344 36 561 -22 738 -200 93 -93 126 -149 166 -283 56 -187 72 -337 55 -500 -18 -159 11 -267 86 -324 30 -23 46 -28 93 -28 70 1 114 29 144 94 19 43 21 58 16 216 -8 315 -5 348 52 555 33 124 60 180 116 249 100 123 176 175 327 224 111 36 109 36 310 32 143 -2 196 -7 257 -23z"/><path d="M1399 3136 c-59 -21 -106 -54 -139 -99 -110 -149 -58 -364 108 -443 192 -92 412 51 412 267 0 123 -84 241 -196 275 -58 17 -137 17 -185 0z"/><path d="M3520 3141 c-75 -24 -141 -83 -181 -161 -28 -53 -33 -164 -10 -220 48 -117 159 -195 276 -195 104 1 195 56 253 155 24 40 27 55 27 140 0 85 -3 100 -27 140 -30 51 -66 87 -121 119 -41 25 -170 38 -217 22z"/></g></svg>
+    </div>
+    <span class="hero-tag">Taller de aprendizaje</span>
+    <h1>SOFOS</h1>
+    <p class="hero-sub">Arte · Lectura · Escritura</p>
+    <p class="hero-desc">Un espacio cálido donde las palabras y el arte se encuentran. Clases personalizadas, talleres creativos y acompañamiento académico a domicilio.</p>
+    <div class="hero-btns">
+      <a href="#servicios" class="btn-main">Ver servicios</a>
+      <a href="#contacto" class="btn-outline">Agendar clase</a>
+    </div>
+  </div>
+</section>
+
+<div class="tags-strip">
+  <span class="tag">Comprensión lectora</span><span class="tag">Origami</span><span class="tag">Encuadernación</span>
+  <span class="tag">Clases a domicilio</span><span class="tag">Producción textual</span><span class="tag">Manualidades</span>
+  <span class="tag">Nivelaciones</span><span class="tag">Kamishibai</span><span class="tag">Lectura crítica</span>
+</div>
+
+<!-- ACERCA DE -->
+<section id="acerca">
+  <div class="inner two-col-center">
+    <div>
+      <span class="section-label">El Indivibúho</span>
+      <h2 class="section-title">Acerca de Sofos</h2>
+      <p class="about-text">Sofos nace del deseo de buscar la estabilidad haciendo lo que es querido, trabajando en lo que se gusta. En este caso, <strong>"tallerear"</strong> con las ideas, con aplicativos multimedia, con los temas, con el papel, con las posibilidades dinámicas de aprender y construir conocimiento.</p>
+      <p class="about-text" style="margin-top:14px;">Aquí el propósito es desarrollar destrezas de lectura y escritura, jugar con las palabras, aguzar la lectura crítica, asesorar al estudiante para acompañarlo en el proceso de mejorar su desempeño académico, mejorando no solo sus notas sino su capacidad de participación e integración en los ambientes de aprendizaje.</p>
+      <div class="exp-block">
+        <p>Al final del pregrado tuve una llamada, la feliz oportunidad de comenzar este camino de profesar el conocimiento, esta empática elección de vida que es acompañar el aprendizaje de los estudiantes. Ese lugar fue el Liceo Colombia. Solo Quijotes eligen ser docentes en Colombia. Luego, un día, mostrando mi Kamishibai en la Darío Echandía en un taller de Irene Vasco, un grupo de profesoras de preescolar me conectaron con mi segundo empleo. Llegué al Gimnasio Campestre, interesante experiencia. De allí, volví encantado al Liceo Colombia, pude estar en todo el ciclo anual del proyecto Sumersemilla. Fantástico. Otra llamada, bachillerato. Un nuevo aprendizaje en un agradable ambiente laboral, trabajé dos años en el Sintramunicipales. De allí, emprendí junto a la mamá de mi hija, creamos Saber es Conocer. Cuatro años duró esta interesante propuesta de servicios educativos. Volví al Sintra, dos años más de actualización en la práctica. Ahora soy Sofos.</p>
+      </div>
+    </div>
+    <div class="about-card">
+      <svg viewBox="0 0 502 497" xmlns="http://www.w3.org/2000/svg" width="70" height="70" style="margin:0 auto 18px;display:block"><g transform="translate(0,497) scale(0.1,-0.1)" fill="rgba(255,255,255,0.8)" stroke="none"><path d="M2385 4863 c-391 -32 -716 -138 -1040 -342 -564 -353 -951 -928 -1074 -1596 -102 -553 -7 -1129 267 -1620 283 -508 736 -891 1272 -1077 119 -41 298 -84 410 -97 52 -7 122 -16 156 -22 79 -12 277 -12 362 1 37 5 119 17 182 26 421 58 866 278 1202 593 408 383 686 948 737 1497 15 154 16 433 2 539 -66 512 -280 988 -602 1340 -20 22 -49 54 -65 71 -52 57 -227 205 -324 274 -77 55 -320 200 -335 200 -3 0 -28 11 -57 24 -321 147 -737 219 -1093 189z m405 -328 c133 -16 161 -22 280 -53 119 -32 216 -70 353 -138 182 -91 395 -239 374 -260 -3 -4 -40 -1 -82 5 -191 28 -436 8 -606 -50 -205 -69 -369 -195 -493 -377 -27 -40 -53 -72 -56 -72 -4 0 -20 19 -35 41 -48 74 -187 209 -272 266 -91 60 -189 101 -333 139 -116 31 -345 43 -485 25 -203 -26 -189 -26 -179 -8 14 24 128 113 229 179 390 253 845 359 1305 303z m1012 -783 c225 -61 343 -166 511 -452 185 -317 266 -638 237 -940 -34 -349 -80 -526 -207 -790 -135 -282 -327 -523 -579 -724 -448 -358 -1046 -500 -1604 -382 -888 188 -1535 947 -1601 1875 -21 300 23 507 166 793 94 187 210 358 300 441 87 82 257 149 417 167 344 36 561 -22 738 -200 93 -93 126 -149 166 -283 56 -187 72 -337 55 -500 -18 -159 11 -267 86 -324 30 -23 46 -28 93 -28 70 1 114 29 144 94 19 43 21 58 16 216 -8 315 -5 348 52 555 33 124 60 180 116 249 100 123 176 175 327 224 111 36 109 36 310 32 143 -2 196 -7 257 -23z"/><path d="M1399 3136 c-59 -21 -106 -54 -139 -99 -110 -149 -58 -364 108 -443 192 -92 412 51 412 267 0 123 -84 241 -196 275 -58 17 -137 17 -185 0z"/><path d="M3520 3141 c-75 -24 -141 -83 -181 -161 -28 -53 -33 -164 -10 -220 48 -117 159 -195 276 -195 104 1 195 56 253 155 24 40 27 55 27 140 0 85 -3 100 -27 140 -30 51 -66 87 -121 119 -41 25 -170 38 -217 22z"/></g></svg>
+      <h3>Andrés Rueda</h3>
+      <p class="atitle">Licenciado en Lengua y Literatura</p>
+      <p class="citem">📍 Finca Los Sauces · Tierra Firme</p>
+      <p class="citem">📧 tallersofos@gmail.com</p>
+      <p class="citem">📱 317 621 2220</p>
+      <br/>
+      <a href="https://wa.me/573176212220" class="wa-btn" target="_blank" style="justify-content:center;width:100%;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.574 3.842 1.567 5.408L2.046 22l4.716-1.498A9.946 9.946 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="inner">
+    <span class="section-label">Lo que ofrezco</span>
+    <h2 class="section-title">Servicios</h2>
+    <p class="section-desc" style="max-width:520px;">Orientados a estudiantes de todos los niveles, con metodologías activas que integran el arte y la creatividad al aprendizaje.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Clase Personalizada</h3>
+        <p>Acompañamiento académico individual adaptado a las necesidades de cada estudiante.</p>
+        <span class="service-price">Desde $30.000</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Taller de Origami</h3>
+        <p>Construcción de figuras en papel que desarrollan la motricidad fina, la concentración y la creatividad.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="#6B2D8B" stroke-width="1.8"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Escrituras Creativas</h3>
+        <p>Taller de producción textual libre, narrativa, poesía y expresión literaria.</p>
+        <span class="service-price">Desde $100.000</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Lectura Crítica</h3>
+        <p>Desarrollo de habilidades de análisis, comprensión e interpretación de textos.</p>
+        <span class="service-price">Desde $100.000</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#6B2D8B" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Taller de Kamishibai</h3>
+        <p>Arte narrativo japonés con ilustraciones. Ideal para docentes y estudiantes de preescolar y primaria.</p>
+        <span class="service-price">Desde $100.000</span>
+      </div>
+      <div class="service-card">
+        <div class="service-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="#6B2D8B" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Encuadernación</h3>
+        <p>Elaboración artesanal de libros y cuadernos. Técnica manual creativa para todas las edades.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+    </div>
+    <div class="horario-box">
+      <div><h4>Horario de atención</h4><p>Lunes a viernes: 8 am – 12 m / 2 pm – 6 pm<br/>Sábado y domingo: cerrado</p></div>
+      <div><h4>Modalidades</h4><p>🏠 A domicilio &nbsp;·&nbsp; 💻 Virtual &nbsp;·&nbsp; 🌿 Sede Campestre</p></div>
+      <a href="#contacto" class="btn-main">Agendar una clase</a>
+    </div>
+  </div>
+</section>
+
+<!-- TALLERES -->
+<section id="talleres">
+  <div class="inner two-col-center">
+    <div>
+      <span class="section-label">Para profes y estudiantes</span>
+      <h2 class="section-title">Talleres creativos</h2>
+      <p class="section-desc">Espacios de aprendizaje activo donde el arte y la literatura se fusionan en experiencias memorables.</p>
+      <div class="talleres-pills">
+        <span class="taller-pill">Encuadernación</span><span class="taller-pill">Escrituras creativas</span>
+        <span class="taller-pill">Origami</span><span class="taller-pill">Papercraft</span>
+        <span class="taller-pill">Kamishibai</span><span class="taller-pill">Lectura crítica</span>
+        <span class="taller-pill">Kusudamas</span><span class="taller-pill">Juegos didácticos</span>
+        <span class="taller-pill">Manualidades</span>
+      </div>
+    </div>
+    <blockquote class="quote-block">"Lo que se oye se olvida, lo que se ve se recuerda, lo que se hace se aprende."<span>— Confucio</span></blockquote>
+  </div>
+</section>
+
+<!-- TIENDA -->
+<section id="tienda">
+  <div class="inner">
+    <span class="section-label">Productos artesanales</span>
+    <h2 class="section-title">Tienda</h2>
+    <p class="section-desc" style="max-width:480px;">Creaciones hechas a mano: origami, encuadernación, kamishibai y más. Para adquirir cualquier producto escríbeme por <a href="https://wa.me/573176212220" style="color:var(--purple);">WhatsApp</a>.</p>
+    <div class="products-grid">
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><div class="product-badge">Tradicional</div><p class="product-name">Kusudama</p><p class="product-price">$40.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/><path d="M3 9h18M9 21V9" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><p class="product-name">Cuadro Principito</p><p class="product-price">$60.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M12 22V12M12 12C12 12 8 9 5 6M12 12C12 12 16 9 19 6" stroke="#6B2D8B" stroke-width="1.5" stroke-linecap="round" opacity=".4"/><circle cx="12" cy="5" r="3" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><p class="product-name">Árbol de pájaros</p><p class="product-price">$80.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><p class="product-name">Cuadro Rockero</p><p class="product-price">$70.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><div class="product-badge">Producto estrella</div><p class="product-name">Flores</p><p class="product-price">$50.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v16H4z" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/><path d="M4 9h16M9 4v16" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><div class="product-badge">Nuevo</div><p class="product-name">Agendas personalizadas</p><p class="product-price">$30.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="16" rx="2" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/><path d="M8 2v4M16 2v4M3 10h18" stroke="#6B2D8B" stroke-width="1.5" stroke-linecap="round" opacity=".4"/></svg></div><div class="product-info"><p class="product-name">Kamishibai</p><p class="product-price">$100.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><p class="product-name">Rompecabezas Colombia</p><p class="product-price">$50.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><div class="product-badge">Lúdica</div><p class="product-name">Juegos Didácticos</p><p class="product-price">$130.000</p></div></div>
+      <div class="product-card"><div class="product-img"><svg width="44" height="44" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="15" rx="2" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/><path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z" stroke="#6B2D8B" stroke-width="1.5" opacity=".4"/></svg></div><div class="product-info"><div class="product-badge">Multiusos</div><p class="product-name">Bloque pregunta Mario Bros</p><p class="product-price">$60.000</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section id="precios" style="background:var(--white)">
+  <div class="inner">
+    <span class="section-label">Inversión en tu educación</span>
+    <h2 class="section-title">Planes y precios</h2>
+    <p class="section-desc" style="max-width:500px;margin-bottom:32px;">Asesoría académica mensual con acompañamiento personalizado. Todos los planes incluyen visita a domicilio y son válidos para 4 semanas.</p>
+    <div class="plans-grid">
+      <div class="plan">
+        <div class="plan-name">Por horas</div>
+        <div class="plan-price">$30k</div>
+        <div class="plan-unit">por hora</div>
+        <div class="plan-detail">2 horas: $50.000<br/>3 horas: $60.000<br/>Promedio $25.000/h</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Plan básico</div>
+        <div class="plan-price">$200k</div>
+        <div class="plan-unit">al mes</div>
+        <div class="plan-detail">1 día a la semana<br/>2.5 horas por sesión<br/>10 horas en 4 semanas</div>
+      </div>
+      <div class="plan featured">
+        <div class="plan-badge-pill">Más popular</div>
+        <div class="plan-name">Plan refuerzo</div>
+        <div class="plan-price">$300k</div>
+        <div class="plan-unit">al mes</div>
+        <div class="plan-detail">2 días a la semana<br/>Mayor incidencia<br/>en el proceso académico</div>
+      </div>
+      <div class="plan">
+        <div class="plan-name">Plan seguimiento</div>
+        <div class="plan-price">$400k</div>
+        <div class="plan-unit">al mes</div>
+        <div class="plan-detail">3 días a la semana<br/>Acompañamiento<br/>toda la semana</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTAFOLIO -->
+<section id="portafolio">
+  <div class="inner">
+    <span class="section-label">Trabajo artesanal</span>
+    <h2 class="section-title">Portafolio</h2>
+    <p class="section-desc">Algunas de las creaciones, talleres y recursos educativos que he desarrollado a lo largo de los años. Escríbeme para ver el portafolio completo.</p>
+    <div class="portfolio-grid">
+      <div class="portfolio-item"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/></svg><span>Origami y Kusudamas</span></div>
+      <div class="portfolio-item"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M4 19.5A2.5 2.5 0 016.5 17H20" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/></svg><span>Encuadernación artesanal</span></div>
+      <div class="portfolio-item"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="14" rx="2" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><path d="M8 21h8M12 17v4" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round"/></svg><span>Kamishibai</span></div>
+      <div class="portfolio-item"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/></svg><span>Juegos didácticos</span></div>
+      <div class="portfolio-item"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/></svg><span>Recursos expositivos</span></div>
+      <div class="portfolio-item"><svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/></svg><span>Talleres de escritura</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="inner two-col-center">
+    <div class="contact-info-col">
+      <span class="section-label">Hablemos</span>
+      <h3>Andrés Rueda</h3>
+      <p class="subtitle">Licenciado en Lengua y Literatura · Sofos</p>
+      <div class="contact-links">
+        <a href="https://wa.me/573176212220" class="contact-link" target="_blank"><div class="contact-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.574 3.842 1.567 5.408L2.046 22l4.716-1.498A9.946 9.946 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg></div>317 621 2220</a>
+        <a href="mailto:tallersofos@gmail.com" class="contact-link"><div class="contact-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="#6B2D8B" stroke-width="1.8"/><polyline points="22,6 12,13 2,6" stroke="#6B2D8B" stroke-width="1.8"/></svg></div>tallersofos@gmail.com</a>
+        <a href="https://instagram.com/tallersofos" class="contact-link" target="_blank"><div class="contact-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="5" stroke="#6B2D8B" stroke-width="1.8"/><circle cx="12" cy="12" r="4" stroke="#6B2D8B" stroke-width="1.8"/><circle cx="17.5" cy="6.5" r="1" fill="#6B2D8B"/></svg></div>@tallersofos</a>
+        <div class="contact-link"><div class="contact-link-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="#6B2D8B" stroke-width="1.8"/><circle cx="12" cy="9" r="2.5" stroke="#6B2D8B" stroke-width="1.8"/></svg></div>Finca Los Sauces · Tierra Firme</div>
+      </div>
+      <p class="horario-mini"><strong>Lunes a viernes:</strong> 8 am – 12 m / 2 pm – 6 pm<br/><strong>Sábado y domingo:</strong> cerrado</p>
+      <br/>
+      <a href="https://wa.me/573176212220?text=Hola%20Andrés,%20me%20interesa%20una%20clase%20de%20Sofos" class="wa-btn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.989.574 3.842 1.567 5.408L2.046 22l4.716-1.498A9.946 9.946 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        Escribir por WhatsApp
+      </a>
+    </div>
+    <div>
+      <p style="font-size:14px;color:var(--text-mid);margin-bottom:18px;font-weight:300;">O déjame tu mensaje y te respondo pronto:</p>
+      <div class="contact-form">
+        <input type="text" id="nombre" placeholder="Tu nombre" />
+        <input type="email" id="email" placeholder="Tu correo" />
+        <input type="tel" id="telefono" placeholder="Tu WhatsApp" />
+        <input type="text" id="asunto" placeholder="Asunto (materia, nivel...)" />
+        <textarea id="mensaje" placeholder="Cuéntame qué necesitas..."></textarea>
+        <button class="btn-main" onclick="enviarMensaje()" style="border:none;cursor:pointer;text-align:center;">Enviar mensaje</button>
+        <p id="formMsg" style="font-size:13px;color:var(--purple);display:none;">¡Gracias por tu mensaje! Te responderé pronto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">
+    <svg width="30" height="30" viewBox="0 0 502 497" xmlns="http://www.w3.org/2000/svg"><g transform="translate(0,497) scale(0.1,-0.1)" fill="rgba(255,255,255,0.6)" stroke="none"><path d="M2385 4863 c-391 -32 -716 -138 -1040 -342 -564 -353 -951 -928 -1074 -1596 -102 -553 -7 -1129 267 -1620 283 -508 736 -891 1272 -1077 119 -41 298 -84 410 -97 52 -7 122 -16 156 -22 79 -12 277 -12 362 1 37 5 119 17 182 26 421 58 866 278 1202 593 408 383 686 948 737 1497 15 154 16 433 2 539 -66 512 -280 988 -602 1340 -20 22 -49 54 -65 71 -52 57 -227 205 -324 274 -77 55 -320 200 -335 200 -3 0 -28 11 -57 24 -321 147 -737 219 -1093 189z m405 -328 c133 -16 161 -22 280 -53 119 -32 216 -70 353 -138 182 -91 395 -239 374 -260 -3 -4 -40 -1 -82 5 -191 28 -436 8 -606 -50 -205 -69 -369 -195 -493 -377 -27 -40 -53 -72 -56 -72 -4 0 -20 19 -35 41 -48 74 -187 209 -272 266 -91 60 -189 101 -333 139 -116 31 -345 43 -485 25 -203 -26 -189 -26 -179 -8 14 24 128 113 229 179 390 253 845 359 1305 303z m1012 -783 c225 -61 343 -166 511 -452 185 -317 266 -638 237 -940 -34 -349 -80 -526 -207 -790 -135 -282 -327 -523 -579 -724 -448 -358 -1046 -500 -1604 -382 -888 188 -1535 947 -1601 1875 -21 300 23 507 166 793 94 187 210 358 300 441 87 82 257 149 417 167 344 36 561 -22 738 -200 93 -93 126 -149 166 -283 56 -187 72 -337 55 -500 -18 -159 11 -267 86 -324 30 -23 46 -28 93 -28 70 1 114 29 144 94 19 43 21 58 16 216 -8 315 -5 348 52 555 33 124 60 180 116 249 100 123 176 175 327 224 111 36 109 36 310 32 143 -2 196 -7 257 -23z"/><path d="M1399 3136 c-59 -21 -106 -54 -139 -99 -110 -149 -58 -364 108 -443 192 -92 412 51 412 267 0 123 -84 241 -196 275 -58 17 -137 17 -185 0z"/><path d="M3520 3141 c-75 -24 -141 -83 -181 -161 -28 -53 -33 -164 -10 -220 48 -117 159 -195 276 -195 104 1 195 56 253 155 24 40 27 55 27 140 0 85 -3 100 -27 140 -30 51 -66 87 -121 119 -41 25 -170 38 -217 22z"/></g></svg>
+    <div><div class="footer-name">SOFOS</div><div class="footer-tagline">Taller de aprendizaje · ©2024</div></div>
+  </div>
+  <div class="footer-links">
+    <a href="#acerca">Acerca de</a><a href="#servicios">Servicios</a><a href="#tienda">Tienda</a>
+    <a href="#precios">Precios</a><a href="https://wa.me/573176212220" target="_blank">WhatsApp</a>
+    <a href="mailto:tallersofos@gmail.com">Correo</a><a href="https://instagram.com/tallersofos" target="_blank">Instagram</a>
+  </div>
+</footer>
+
+<script>
+  const navbar=document.getElementById('navbar');
+  window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>20));
+  const hamburger=document.getElementById('hamburger');
+  const navLinks=document.getElementById('navLinks');
+  hamburger.addEventListener('click',()=>navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+  function enviarMensaje(){
+    const nombre=document.getElementById('nombre').value;
+    const telefono=document.getElementById('telefono').value;
+    const asunto=document.getElementById('asunto').value;
+    const mensaje=document.getElementById('mensaje').value;
+    if(!nombre||!mensaje){alert('Por favor completa al menos tu nombre y mensaje.');return;}
+    const texto=`Hola Andrés, soy ${nombre}.${asunto?' Asunto: '+asunto+'.':''} ${mensaje}${telefono?' Mi número: '+telefono:''}`;
+    window.open('https://wa.me/573176212220?text='+encodeURIComponent(texto),'_blank');
+    document.getElementById('formMsg').style.display='block';
+  }
+</script>
+</body>
+</html>
