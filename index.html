@@ -429,16 +429,17 @@
   const navLinks=document.getElementById('navLinks');
   hamburger.addEventListener('click',()=>navLinks.classList.toggle('open'));
   navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
-  function enviarMensaje(){
-    const nombre=document.getElementById('nombre').value;
-    const telefono=document.getElementById('telefono').value;
-    const asunto=document.getElementById('asunto').value;
-    const mensaje=document.getElementById('mensaje').value;
-    if(!nombre||!mensaje){alert('Por favor completa al menos tu nombre y mensaje.');return;}
-    const texto=`Hola Andrés, soy ${nombre}.${asunto?' Asunto: '+asunto+'.':''} ${mensaje}${telefono?' Mi número: '+telefono:''}`;
-    window.open('https://wa.me/573176212220?text='+encodeURIComponent(texto),'_blank');
-    document.getElementById('formMsg').style.display='block';
-  }
+function enviarMensaje(){
+  const nombre=document.getElementById('nombre').value;
+  const email=document.getElementById('email').value;
+  const telefono=document.getElementById('telefono').value;
+  const asunto=document.getElementById('asunto').value;
+  const mensaje=document.getElementById('mensaje').value;
+  if(!nombre||!mensaje){alert('Por favor completa al menos tu nombre y mensaje.');return;}
+  const cuerpo=`Nombre: ${nombre}%0ATelefono: ${telefono}%0A%0A${mensaje}`;
+  window.open(`mailto:tallersofos@gmail.com?subject=${encodeURIComponent(asunto||'Consulta desde el sitio web')}&body=${cuerpo}`,'_blank');
+  document.getElementById('formMsg').style.display='block';
+}
 </script>
 </body>
 </html>
